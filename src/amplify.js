@@ -4,8 +4,8 @@
 import {Auth}  from "aws-amplify";
 
  export async function signUp({username, password}, updateFormType) {
-     console.log(username)
-     console.log(password)
+    //  console.log(username)
+    //  console.log(password)
     try {
       await Auth.signUp({
         username, password
@@ -16,5 +16,15 @@ import {Auth}  from "aws-amplify";
 
     } catch (err) {
       console.log('error signing up..', err)
+    }
+  }
+
+  export async function confirmSignUp({ username, confirmationCode }, updateFormType) {
+    try {
+      await Auth.confirmSignUp(username, confirmationCode)
+      console.log('confirm sign up success!')
+      updateFormType('signIn')
+    } catch (err) {
+      console.log('error confirming signing up..', err)
     }
   }
