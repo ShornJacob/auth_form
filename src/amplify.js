@@ -28,3 +28,12 @@ import {Auth}  from "aws-amplify";
       console.log('error confirming signing up..', err)
     }
   }
+
+  export async function signIn({ username, password }) {
+    try {
+      await Auth.signIn(username, password)
+      console.log('sign in success!')
+    } catch (err) {
+      console.log('error signing up..', err)
+    }
+  }
