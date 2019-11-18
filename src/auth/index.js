@@ -1,8 +1,7 @@
 import React, { useState, useReducer } from "react";
-import { Router } from "@reach/router";
-import {isLoggedIn} from './util'
+import {isLoggedIn, logout} from './util'
 import SignIn from "./SignIn";
-import {  signIn } from "./amplify";
+import {  signIn} from "./amplify";
 import  User from './User'
 
 const initialFormState = {
@@ -47,7 +46,8 @@ export default () => {
             );
             case "loggedIn":
                 return (
-                  <User/>
+                    //logout takes a callback to execute 
+                  <User logout={ () => logout(() => updateFormType('signIn'))} />
                 );
       default:
         return null;

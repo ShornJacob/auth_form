@@ -1,6 +1,6 @@
 //https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 export const setUser = user => {
-  console.log(user)
+  //console.log(user)
   window.localStorage.amplifyUser = JSON.stringify(user)
 } 
 //e read-only localStorage property allows you to access a Storage object for the Document's origin; 
@@ -23,6 +23,7 @@ export const isLoggedIn = () => {
   }
 
   export const logout = callback => {
+    console.log("Loggin Out")
     setUser({})
     callback()
   }

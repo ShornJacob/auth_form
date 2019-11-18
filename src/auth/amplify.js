@@ -37,9 +37,10 @@ import {setUser} from './util';
     // console.log(password)
     try {
      const user = await Auth.signIn(username, password)
-     console.log(user.attributes.email)
-      updateFormType('loggedIn')
+    //  console.log(user.attributes.email)
+      //setUSer before updating state because auth will check user
       setUser({username : user.attributes.email})
+      updateFormType('loggedIn')
       console.log('sign in success!')
     } catch (err) {
       console.log('error signing up..', err)
