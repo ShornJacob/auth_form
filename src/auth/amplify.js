@@ -33,8 +33,8 @@ import {setUser} from './util';
   //first paraemter is objet, deconstructed
   export async function signIn({ username, password },updateFormType) {
 
-    // console.log(username)
-    // console.log(password)
+     console.log(username)
+    console.log(password)
     try {
      const user = await Auth.signIn(username, password)
     //  console.log(user.attributes.email)

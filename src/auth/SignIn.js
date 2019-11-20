@@ -1,56 +1,56 @@
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import useForm from "react-hook-form";
 import React from "react";
+import { signIn } from "./amplify";
 
 export default function SignIn(props) {
+  const { updateFormType } = props;
 
-  const {signIn, updateFormState } = props
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = values => {
+    signIn(values, updateFormType);
+  };
 
   return (
     <div>
       <Typography component="h1" variant="h5">
-        Sign Up
+        Sign In
       </Typography>
 
-      <form noValidate>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* variant is border
+            margin is top bottom*/}
         <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="username"
-          label="Email Address"
           name="username"
-          autoComplete="email"
-          onChange={e => {
-            e.persist();
-            updateFormState(e);
-          }}
-          autoFocus
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          inputRef={register({
+            pattern: {
+              value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            }
+          })}
+          error={!!errors.username}
+          helperText={errors.username && "Email not valid."}
         />
 
         <TextField
+          name="password"
+          type="password"
           variant="outlined"
           margin="normal"
-          required
           fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          onChange={e => {
-            e.persist();
-            updateFormState(e);
-          }}
+          inputRef={register ({
+            minLength : {
+              value : 8
+            }
+          })}
+          error={!!errors.password}
+          helperText={errors.password && "Minimum Length of 8."}
         />
-
-        <Button
-          onClick={signIn}
-          //this sets full width to true
-          fullWidth
-          variant="outlined"
-        >
+        <Button type="submit" fullWidth variant="outlined">
           Sign In
         </Button>
       </form>
@@ -58,9 +58,3 @@ export default function SignIn(props) {
   );
 }
 
-//https://material-ui.com/api/typography/
-//component - The component used for the root node. Either a string to use a DOM element or a component. By default, it maps the variant to a good default headline component.
-
-//variant - Applies the theme typography styles.
-
-//https://www.w3schools.com/tags/att_form_novalidate.asp

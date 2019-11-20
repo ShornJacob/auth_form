@@ -2,7 +2,7 @@
 //https://github.com/dabit3/amplify-auth-demo/blob/master/src/Form.js
 
 import React, { useState, useReducer } from "react";
-import SignIn from "./SignIn";
+import SignIn from "./SignIn2";
 import SignUp from "./SignUp";
 import ConfirmSignUp from "./ConfirmSignUp";
 import { signUp, confirmSignUp, signIn } from "./amplify";
