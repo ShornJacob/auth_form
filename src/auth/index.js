@@ -12,7 +12,7 @@ export default () => {
   const initialFormType =  isLoggedIn() ? 'loggedIn' : "signIn"
 
   const [formType, updateFormType] = useState(initialFormType);
-  const [serverError, updateServerError] = useState("drt");
+  const [serverError, updateServerError] = useState(null);
 
 
 //   console.log(formType)
@@ -22,7 +22,7 @@ export default () => {
     switch (formType) {
         case "signIn":
             return (
-              <SignIn updateFormType={updateFormType} />
+              <SignIn updateFormType={updateFormType} updateServerError={updateServerError} />
             );
             case "loggedIn":
                 return (

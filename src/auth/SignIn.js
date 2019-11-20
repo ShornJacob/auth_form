@@ -6,11 +6,11 @@ import React from "react";
 import { signIn } from "./amplify";
 
 export default function SignIn(props) {
-  const { updateFormType } = props;
+  const { updateFormType, updateServerError } = props;
 
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = values => {
-    signIn(values, updateFormType);
+    signIn(values, updateFormType, updateServerError);
   };
 
   return (

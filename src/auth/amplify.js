@@ -5,8 +5,7 @@ import {Auth}  from "aws-amplify";
 import {setUser} from './util';
 
  export async function signUp({username, password}, updateFormType) {
-    //  console.log(username)
-    //  console.log(password)
+
     try {
       await Auth.signUp({
         username, password
@@ -31,10 +30,10 @@ import {setUser} from './util';
   }
 
   //first paraemter is objet, deconstructed
-  export async function signIn({ username, password },updateFormType) {
+  export async function signIn({ username, password },updateFormType, updateServerError) {
 
-     console.log(username)
-    console.log(password)
+    //  console.log(username)
+    // console.log(password)
     try {
      const user = await Auth.signIn(username, password)
     //  console.log(user.attributes.email)
@@ -43,6 +42,7 @@ import {setUser} from './util';
       updateFormType('loggedIn')
       console.log('sign in success!')
     } catch (err) {
-      console.log('error signing up..', err)
+      // console.log('error signing up..', err)
+      updateServerError(err.message)
     }
   }
