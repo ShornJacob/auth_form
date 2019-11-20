@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {isLoggedIn, logout} from './util'
 import SignIn from "./SignIn";
 import  User from './User'
+import SimpleSnackbar from '../components/Snackbar'
 
 
 
@@ -11,6 +12,7 @@ export default () => {
   const initialFormType =  isLoggedIn() ? 'loggedIn' : "signIn"
 
   const [formType, updateFormType] = useState(initialFormType);
+  const [serverError, updateServerError] = useState("drt");
 
 
 //   console.log(formType)
@@ -35,6 +37,7 @@ export default () => {
   return (
       <div>
          { renderAuth() }
+         {serverError ? <SimpleSnackbar message={serverError} /> : null}
       </div>
   )
 };
