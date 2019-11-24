@@ -4,7 +4,7 @@
 import {Auth}  from "aws-amplify";
 import {setUser} from './util';
 
- export async function signUp({username, password}, updateFormType) {
+ export async function signUp({username, password}, updateSignUpStage,updatesnackbarMsg ) {
 
     try {
       await Auth.signUp({
@@ -12,25 +12,29 @@ import {setUser} from './util';
       })
 
       console.log('sign up success!')
-      updateFormType('confirmSignUp')
+      updateSignUpStage('confirmSignUp')
+      updatesnackbarMsg("An AuthCode has been send to the submitted email. Please confirm AuthCode.")
 
     } catch (err) {
-      console.log('error signing up..', err)
+      // console.log('error signing up..', err)
+      updatesnackbarMsg(err.message)
     }
   }
 
-  export async function confirmSignUp({ username, confirmationCode }, updateFormType) {
+  export async function confirmSignUp({ confirmationcode }, email, updateFormType, updatesnackbarMsg) {
     try {
-      await Auth.confirmSignUp(username, confirmationCode)
+      await Auth.confirmSignUp(email, confirmationcode)
       console.log('confirm sign up success!')
       updateFormType('signIn')
+      updatesnackbarMsg("Email Verified. Please Sign In.")
     } catch (err) {
+      updatesnackbarMsg(err.message)
       console.log('error confirming signing up..', err)
     }
   }
 
   //first paraemter is objet, deconstructed
-  export async function signIn({ username, password },updateFormType, updateServerError) {
+  export async function signIn({ username, password },updateFormType, updatesnackbarMsg) {
 
     //  console.log(username)
     // console.log(password)
@@ -43,6 +47,6 @@ import {setUser} from './util';
       console.log('sign in success!')
     } catch (err) {
       // console.log('error signing up..', err)
-      updateServerError(err.message)
+      updatesnackbarMsg(err.message)
     }
   }

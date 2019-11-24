@@ -1,25 +1,34 @@
+import React from "react";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import useForm from "react-hook-form";
+import { signUp } from "./amplify";
 import Grid from "@material-ui/core/Grid";
 import Link from '@material-ui/core/Link';
-import useForm from "react-hook-form";
-import React from "react";
-import { signIn } from "./amplify";
 
-export default function SignIn(props) {
-  const { updateFormType, updatesnackbarMsg } = props;
+export default function EmailSignUp(props) {
 
-  const { register, handleSubmit, errors } = useForm();
+  const { updateFormType, updatesnackbarMsg, updateSignUpStage,updateEmail } = props;
+  const { register, handleSubmit, errors , watch} = useForm();
+
+  // const stateUpdates = {
+  //   updateFormType,
+  //   updateServerError,
+  //   updateSignUpStage
+  // }
 
   const onSubmit = values => {
-    signIn(values, updateFormType, updatesnackbarMsg);
+     // updateFormType is not needed here
+    signUp(values, updateSignUpStage, updatesnackbarMsg );
+    //can set Email to confirm here
+    updateEmail(values.username)
   };
 
   return (
     <div>
       <Typography component="h1" variant="h5">
-        Sign In
+        Sign Up
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -47,37 +56,47 @@ export default function SignIn(props) {
           margin="normal"
           label="Password"
           fullWidth
-          inputRef={register ({
-            minLength : {
-              value : 8
+          inputRef={register({
+            minLength: {
+              value: 8
             }
           })}
           error={!!errors.password}
           helperText={errors.password && "Minimum Length of 8."}
         />
+
+        <TextField
+          name="password2"
+          type="password"
+          variant="outlined"
+          margin="normal"
+          label="Confirm Password"
+          fullWidth
+          inputRef={register({
+            validate: value => value === watch("password")
+          })}
+          error={!!errors.password}
+          helperText={errors.password2 && "Passwords don't match."}
+        />
+
         <Button type="submit" fullWidth variant="outlined">
-          Sign In
+          Sign Up
         </Button>
       </form>
 
       <Grid container>
             <Grid item xs>
               {/* if not passed as a function, it will be executed */}
-              <Link component="button"   onClick={ () => updateFormType("signUp")}  >
-                Sign Up
+              <Link component="button"   onClick={ () => updateFormType("signIn")}  >
+                Sign In
               </Link>
             </Grid>
             <Grid item>
             <Link component="button"   onClick={ () => updateFormType("forgotPassword")}  >
-                Forgot password
+                Resend AuthCode
               </Link>
             </Grid>
           </Grid>
     </div>
   );
 }
-
-//https://material-ui.com/api/link/
-//https://material-ui.com/components/links/
-//If a link doesn't have a meaningful href, it should be rendered using a <button> element.
-
