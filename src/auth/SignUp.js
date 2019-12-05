@@ -1,55 +1,121 @@
-import React, { useState } from "react";
-import EmailSignUp from './EmailSignUp'
-import ConfirmSignUp from './ConfirmSignUp'
-
-export default function SignUp(props) {
-
-  const { updateFormType, updatesnackbarMsg } = props;
-
-
-  const [email, updateEmail] = useState("emailSignUp");
-  const [stage, updateSignUpStage] = useState("emailSignUp");
+import React, {useState} from "react";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import useForm from "react-hook-form";
+import useAuthStyles from "./style";
+import SimpleSnackbar from "../components/Snackbar";
+import {Auth}  from "aws-amplify";
+import { navigate } from "@reach/router"
 
 
-  const signUpUpdates = {
-    updateFormType,
-    updateSignUpStage,
-    updateEmail,
-    updatesnackbarMsg
+
+export default props => {
+
+    const classes = useAuthStyles();
+  
+    const [snackbarMsg, updatesnackbarMsg] = useState(null)
+
+    const { register, handleSubmit, errors, watch } = useForm()
+
+    const onSignUp = values => {
+        // console.log(values)
+        signUp(values)
+       
+      }
+
+    async function signUp({username, password} ) {
+
+        try {
+          await Auth.signUp({
+            username, password
+          })
+      
+          console.log('sign up success!')
+          //https://reach.tech/router/api/navigate
+          // // put some state on the location
+          //https://github.com/reach/router/issues/96
+          navigate("/confirmsignup", 
+          {state : { 
+            username,
+            msg : "An AuthCode has been send to the submitted email. Please confirm AuthCode."
+           }})
+      
+        } catch (err) {
+          console.log('error signing up..', err)
+          updatesnackbarMsg(err.message)
+        }
+      }
+
+
+      //Required is required, Or else it will pass a blank field"
+
+      return (
+        <div>
+          <Typography component="h1" variant="h5">
+            Sign Up
+          </Typography>
+          <div className={classes.paper}>
+          <form className={classes.form} onSubmit={handleSubmit(onSignUp)}>
+            {/* variant is border
+                  margin is top bottom*/}
+            <TextField
+              name="username"
+              variant="outlined"
+              margin="normal"
+              label="Email"
+              fullWidth
+              inputRef={register({
+                pattern: {
+                  value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                },
+                required: true
+              })}
+              error={!!errors.username}
+              helperText={errors.username && "Email not valid."}
+      
+            />
+
+            <TextField
+              name="password"
+              type="password"
+              variant="outlined"
+              margin="normal"
+              label="Password"
+              fullWidth
+              inputRef={register({
+                minLength: {
+                  value: 8
+                },
+                required: true
+              })}
+              error={!!errors.password}
+              helperText={errors.password && "Minimum Length of 8."}
+        
+            />
+
+            <TextField
+              name="password2"
+              type="password"
+              variant="outlined"
+              margin="normal"
+              label="Confirm Password"
+              fullWidth
+              inputRef={register({
+                validate: value => value === watch("password"),
+                required: true
+              })}
+              error={!!errors.password}
+              helperText={errors.password2 && "Passwords don't match."}
  
-  }
+            />
 
-  const confirmUpdates = {
-    updateFormType,
-    email,
-    updatesnackbarMsg
- 
-  }
-
-
-  //console.log(stage)
-
-  function renderForm() {
-    switch (stage) {
-        case "emailSignUp":
-            return (
-                
-              <EmailSignUp { ...signUpUpdates} />
-            );
-        case "confirmSignUp" :
-             // props updateFormType, updateServerError
-            return (
-              <ConfirmSignUp {...confirmUpdates} />
-            );
-            
-      default:
-        return null;
-    }
-  }
-
-  return (
-    <div>
-      {renderForm()}
-    </div>
-  );
-}
+            <Button  className={classes.submit} type="submit" fullWidth variant="outlined">
+              Sign Up
+            </Button>
+          </form>          </div>
+    
+          {snackbarMsg ? <SimpleSnackbar message={snackbarMsg} /> : null}
+        </div>
+      );
+    };

@@ -4,7 +4,7 @@
 import {Auth}  from "aws-amplify";
 import {setUser} from './util';
 
- export async function signUp({username, password}, updateSignUpStage,updatesnackbarMsg ) {
+ export async function signUp({username, password}, updateFormType, updatesnackbarMsg ) {
 
     try {
       await Auth.signUp({
@@ -12,20 +12,22 @@ import {setUser} from './util';
       })
 
       console.log('sign up success!')
-      updateSignUpStage('confirmSignUp')
+      updateFormType('confirmSignUp')
       updatesnackbarMsg("An AuthCode has been send to the submitted email. Please confirm AuthCode.")
 
     } catch (err) {
-      // console.log('error signing up..', err)
+      console.log('error signing up..', err)
       updatesnackbarMsg(err.message)
     }
   }
 
-  export async function confirmSignUp({ confirmationcode }, email, updateFormType, updatesnackbarMsg) {
+  export async function confirmSignUp({ confirmationcode }, email,updatesnackbarMsg) {
+
+    console.log(confirmationcode)
+    console.log(email)
     try {
       await Auth.confirmSignUp(email, confirmationcode)
       console.log('confirm sign up success!')
-      updateFormType('signIn')
       updatesnackbarMsg("Email Verified. Please Sign In.")
     } catch (err) {
       updatesnackbarMsg(err.message)
@@ -34,16 +36,13 @@ import {setUser} from './util';
   }
 
   //first paraemter is objet, deconstructed
-  export async function signIn({ username, password },updateFormType, updatesnackbarMsg) {
+  export async function signIn({ username, password },updatesnackbarMsg) {
 
     //  console.log(username)
     // console.log(password)
     try {
      const user = await Auth.signIn(username, password)
-    //  console.log(user.attributes.email)
-      //setUSer before updating state because auth will check user
       setUser({username : user.attributes.email})
-      updateFormType('loggedIn')
       console.log('sign in success!')
     } catch (err) {
       // console.log('error signing up..', err)
