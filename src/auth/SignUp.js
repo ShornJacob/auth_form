@@ -62,6 +62,7 @@ export default () => {
             {/* variant is border
                   margin is top bottom*/}
             <TextField
+              id="Email"
               name="username"
               variant="outlined"
               margin="normal"
@@ -75,7 +76,6 @@ export default () => {
               })}
               error={!!errors.username}
               helperText={errors.username && "Email not valid."}
-      
             />
 
             <TextField
