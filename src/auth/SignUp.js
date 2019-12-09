@@ -50,12 +50,13 @@ export default props => {
 
       //Required is required, Or else it will pass a blank field"
 
+      //https://testing-library.com/docs/dom-testing-library/api-queries#bylabeltext
       return (
-        <div>
-          <Typography component="h1" variant="h5">
-            Sign Up
+        <div className={classes.paper}  >
+          <Typography component="h1" variant="h5" data-testid="auth-title" >
+           Sign Up
           </Typography>
-          <div className={classes.paper}>
+
           <form className={classes.form} onSubmit={handleSubmit(onSignUp)}>
             {/* variant is border
                   margin is top bottom*/}
@@ -113,9 +114,13 @@ export default props => {
             <Button  className={classes.submit} type="submit" fullWidth variant="outlined">
               Sign Up
             </Button>
-          </form>          </div>
+          </form>          
     
           {snackbarMsg ? <SimpleSnackbar message={snackbarMsg} /> : null}
         </div>
       );
     };
+
+  const About = () => <div>You are on the about page</div>
+
+  export {About}
