@@ -53,7 +53,8 @@ export default () => {
       //https://testing-library.com/docs/dom-testing-library/api-queries#bylabeltext
       return (
         <div className={classes.paper}  >
-          <Typography component="h1" variant="h5" data-testid="auth-title" >
+          {/* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles */}
+          <Typography component="h1" variant="h5" role="heading" >
            Sign Up
           </Typography>
 

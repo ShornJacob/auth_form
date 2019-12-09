@@ -1,14 +1,11 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import {
-  Router,
-  Link,
   createHistory,
   createMemorySource,
   LocationProvider,
 } from '@reach/router'
 import '@testing-library/jest-dom/extend-expect'
-import SignUp from '../SignUp'
 import MutationObserver from 'mutationobserver-shim'
 import App from '../index'
 
@@ -29,9 +26,13 @@ function renderWithRouter(
   }
 }
 
+//https://testing-library.com/docs/guide-which-query
+//https://testing-library.com/docs/dom-testing-library/api-queries#bytext
 test('full app rendering/navigating', async () => {
   const {
     getByTestId,
+    getAllByText,
+    getByRole,
     history: { navigate },
   } = renderWithRouter(<App />)
 
@@ -39,7 +40,13 @@ test('full app rendering/navigating', async () => {
   // to the page using the navigate function returned from the history object.
   await navigate('/signup')
 
-  expect(getByTestId('auth-title').textContent).toBe('Sign Up')
+  //https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+  //https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles
+  const element= getByRole('heading')
+
+  //https://github.com/testing-library/jest-dom
+  //https://github.com/testing-library/jest-dom#tohavetextcontent
+  expect(element).toHaveTextContent(/sign up/i)
 })
 
 //https://react-hook-form.com/faqs/#TestingfailedduetoMutationObserver
