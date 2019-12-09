@@ -8,26 +8,11 @@ import {
   LocationProvider,
 } from '@reach/router'
 import '@testing-library/jest-dom/extend-expect'
+import SignUp from '../SignUp'
+import MutationObserver from 'mutationobserver-shim'
+import App from '../index'
 
-//const About = () => <div>You are on the about page</div>
-const About = () =>  <div><span data-testid="an-id">ert</span></div>
-const Home = () => <div>You are home</div>
-const NoMatch = () => <div>No match</div>
 
-function App() {
-  return (
-    <div>
-
-      <Router>
-        <Home path="/" />
-        <About path="/about" />
-        <NoMatch default />
-      </Router>
-    </div>
-  )
-}
-
-// Ok, so here's what your tests might look like
 
 // this is a handy function that I would utilize for any component
 // that relies on the router being in context
@@ -49,14 +34,19 @@ test('full app rendering/navigating', async () => {
     getByTestId,
     history: { navigate },
   } = renderWithRouter(<App />)
-  //const appContainer = container
-  // normally I'd use a data-testid, but just wanted to show this is also possible
-  //expect(appContainer.innerHTML).toMatch('You are home')
 
   // with reach-router we don't need to simulate a click event, we can just transition
   // to the page using the navigate function returned from the history object.
-  await navigate('/about')
-//   expect(container.innerHTML).toMatch('You are on the about page')
-  expect(getByTestId('an-id').textContent).toBe('ert')
+  await navigate('/signup')
+
+  expect(getByTestId('auth-title').textContent).toBe('Sign Up')
 })
 
+//https://react-hook-form.com/faqs/#TestingfailedduetoMutationObserver
+
+//https://stackoverflow.com/questions/6599815/what-is-the-difference-between-a-shim-and-a-polyfill
+//// A shim is any piece of code that performs interception of an API call and provides a layer of abstraction. It isn't necessarily restricted to a web application or HTML5/CSS3.
+
+// A polyfill is a type of shim that retrofits legacy browsers with modern HTML5/CSS3 features usually using Javascript or Flash.
+// a polyfill is a shim for a browser API
+//

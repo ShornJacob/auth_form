@@ -10,7 +10,7 @@ import { navigate } from "@reach/router"
 
 
 
-export default props => {
+export default () => {
 
     const classes = useAuthStyles();
   
@@ -121,6 +121,3 @@ export default props => {
       );
     };
 
-  const About = () => <div>You are on the about page</div>
-
-  export {About}
