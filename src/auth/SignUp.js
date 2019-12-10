@@ -79,6 +79,7 @@ export default () => {
             />
 
             <TextField
+              id="password"
               name="password"
               type="password"
               variant="outlined"
@@ -97,6 +98,7 @@ export default () => {
             />
 
             <TextField
+              id="password2"
               name="password2"
               type="password"
               variant="outlined"
