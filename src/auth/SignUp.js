@@ -42,7 +42,7 @@ export default () => {
            }})
       
         } catch (err) {
-          console.log('error signing up..', err)
+          //the error boject 
           updatesnackbarMsg(err.message)
         }
       }
@@ -120,6 +120,7 @@ export default () => {
           </form>          
     
           {snackbarMsg ? <SimpleSnackbar message={snackbarMsg} /> : null}
+         
         </div>
       );
     };
