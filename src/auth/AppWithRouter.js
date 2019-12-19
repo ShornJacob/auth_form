@@ -1,11 +1,10 @@
 import React from "react";
 import { Router } from "@reach/router";
-import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import ConfirmSignUp from "./ConfirmSignUp";
 import Layout from "../Layout";
 
-function App() {
+export default function AppWithRouter() {
   return (
     <Layout>
       <Router>
@@ -16,4 +15,3 @@ function App() {
   );
 }
 
-export default App;

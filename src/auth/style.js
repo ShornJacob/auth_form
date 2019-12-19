@@ -20,5 +20,11 @@ export default makeStyles(theme => ({
     submit: {
       margin: theme.spacing(3, 0, 2),
     },
+
+    avatar: {
+      margin: theme.spacing(1),
+      backgroundColor: theme.palette.secondary.main,
+    },
+    
   }));
   
