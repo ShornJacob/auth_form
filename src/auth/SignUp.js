@@ -31,7 +31,7 @@ export default () => {
         password
       });
 
-      console.log("sign up success!");
+      //console.log("sign up success!");
       //https://reach.tech/router/api/navigate
       // // put some state on the location
       //https://github.com/reach/router/issues/96
@@ -44,7 +44,7 @@ export default () => {
       });
     } catch (err) {
 
-      console.log("Error");
+      //console.log("Error");
       //the error boject
       //console.log(err)
       updatesnackbarMsg(err.message);

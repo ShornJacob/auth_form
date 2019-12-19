@@ -11,35 +11,57 @@ import Avatar from "@material-ui/core/Avatar";
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
+import isEmpty from 'lodash/isEmpty';
 
-export default () => {
+
+export default ({location : {state}}) => {
+
+  //undefined unless assigned
+  let emailToConfirm
+  let msgforBar
+  //https://www.tothenew.com/blog/difference-between-undefined-and-null-in-javascript/
+  //‘undefined’ is a variable type whereas ‘null’ is an object value.
+  //A variable is said to be ‘undefined’ if it has been declared, but no value has been given to it
+  //‘null’ is a value that can be assigned to a variable and represents ‘no value’
+  if (state !== null) {
+    emailToConfirm = state.username
+    msgforBar = state.msg
+  }
+
+  //  console.log(emailToConfirm)
+  //  console.log(msgforBar)
+
+
+  //console.log(username)
   const classes = useAuthStyles();
 
-  const [snackbarMsg, updatesnackbarMsg] = useState(null);
+  const [snackbarMsg, updatesnackbarMsg] = useState(msgforBar);
 
   const { register, handleSubmit, errors, watch } = useForm();
+ 
 
-  const onSignUp = values => {
+
+  //https://aws-amplify.github.io/amplify-js/api/classes/authclass.html#confirmsignup
+  const onConfirmSignUp = values => {
     // console.log(values)
-    signUp(values);
+    ConfirmSignUp(values);
   };
 
-  async function signUp({ username, password }) {
+  async function ConfirmSignUp({ username, code }) {
     try {
-      await Auth.signUp({
+      await Auth.ConfirmSignUp({
         username,
-        password
+        code
       });
 
-      console.log("sign up success!");
+      console.log("confirm signup success!");
       //https://reach.tech/router/api/navigate
       // // put some state on the location
       //https://github.com/reach/router/issues/96
-      navigate("/confirmsignup", {
+      navigate("/signin", {
         state: {
-          username,
           msg:
-            "An AuthCode has been send to the submitted email. Please confirm AuthCode."
+            "Email Successfully Confirmed. Sign In."
         }
       });
     } catch (err) {
@@ -63,7 +85,7 @@ export default () => {
         Confirm Sign Up
       </Typography>
 
-      <form className={classes.form} onSubmit={handleSubmit(onSignUp)}>
+      <form className={classes.form} onSubmit={handleSubmit(onConfirmSignUp)}>
         {/* variant is border
                   margin is top bottom*/}
         <TextField
@@ -72,6 +94,7 @@ export default () => {
           variant="outlined"
           margin="normal"
           label="Email"
+          defaultValue={emailToConfirm}
           fullWidth
           inputRef={register({
             pattern: {
