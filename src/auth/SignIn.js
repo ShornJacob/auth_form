@@ -5,33 +5,63 @@ import Button from "@material-ui/core/Button";
 // import Link from '@material-ui/core/Link';
 import useForm from "react-hook-form";
 import React, { useState } from "react";
-import { signIn } from "./amplify";
-import useAuthStyles from './style';
-import Container from '@material-ui/core/Container';
-import SimpleSnackbar from "../components/Snackbar";
+import useAuthStyles from "./style";
+import SimpleSnackbar from "./components/snackbar";
+import Avatar from "@material-ui/core/Avatar";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import { Auth } from "aws-amplify";
+import { navigate } from "@reach/router";
+import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
+import {setUser} from './util'
 
+export default ({ location: { state } }) => {
+  let msgforBar;
 
-export default (props) => {
+  if (state !== null) {
+    msgforBar = state.msg;
+  }
 
   const classes = useAuthStyles();
 
-  const [snackbarMsg, updatesnackbarMsg] = useState(null);
+  const [snackbarMsg, updatesnackbarMsg] = useState(msgforBar);
 
   const { register, handleSubmit, errors } = useForm();
- 
-  //state updater passes
-  const onSubmit = values => signIn(values, updatesnackbarMsg);
+
+  const onSignIn= values => {
+    // console.log(values)
+    signIn(values);
+  };
+
+  //https://aws-amplify.github.io/amplify-js/api/classes/authclass.html#signin
+  async function signIn({ username, password }) {
+    try {
+      await Auth.signIn(username,password);
+      console.log("Successfully Signed In")
+      //an object needs to be set in localstorage
+      setUser({username})
+      navigate("/profile")
+    } catch (err) {
+
+      //console.log("Error");
+      //the error boject
+      //console.log(err)
+      updatesnackbarMsg(err.message);
+    }
+  }
 
 
   return (
- 
-    <Container component="main" maxWidth="xs">
     <div className={classes.paper}>
+      <Avatar className={classes.avatar}>
+        <AccountBoxIcon/>
+      </Avatar>
+
       <Typography component="h1" variant="h5">
         Sign In
       </Typography>
 
-      <form  className={classes.form} onSubmit={handleSubmit(onSubmit)} >
+      <form className={classes.form} onSubmit={handleSubmit(onSignIn)}>
         {/* variant is border
             margin is top bottom*/}
         <TextField
@@ -56,39 +86,45 @@ export default (props) => {
           margin="normal"
           label="Password"
           fullWidth
-          inputRef={register ({
-            minLength : {
-              value : 8
+          inputRef={register({
+            minLength: {
+              value: 8
             }
           })}
           error={!!errors.password}
           helperText={errors.password && "Minimum Length of 8."}
         />
-        <Button  className={classes.submit} type="submit" fullWidth variant="outlined">
+        <Button
+          className={classes.submit}
+          type="submit"
+          fullWidth
+          variant="outlined"
+        >
           Sign In
         </Button>
       </form>
 
-    {/*  <Grid container>
+   
+      <Grid container>
             <Grid item xs>
-              {/* if not passed as a function, it will be executed 
-              <Link component="button"   onClick={ () => updateFormType("signUp")}  >
+              {/* https://material-ui.com/components/links/ */}
+              {/* color="primary" as the link needs to stand out.
+              variant="inherit" as the link will, most of the time, be used as a child of a Typography component. */}
+              <Link href="/signup"  variant="body2"  color="secondary">
                 Sign Up
               </Link>
             </Grid>
             <Grid item>
-            <Link component="button"   onClick={ () => updateFormType("forgotPassword")}  >
-                Forgot password
+            <Link href="/forgotpassword"  variant="body2"  color="secondary">
+                Password Reset
               </Link>
             </Grid>
-          </Grid> */}
+          </Grid>
+
+      {snackbarMsg ? <SimpleSnackbar message={snackbarMsg} /> : null}
     </div>
-
-
-    {snackbarMsg ? <SimpleSnackbar message={snackbarMsg} /> : null}
-    </Container>
-    );
-}
+  );
+};
 
 //https://material-ui.com/api/link/
 //https://material-ui.com/components/links/

@@ -7,8 +7,8 @@ import {
 } from '@reach/router'
 import '@testing-library/jest-dom/extend-expect'
 import MutationObserver from 'mutationobserver-shim'
-import renderWithRouter from '../util/renderWithRouter'
-import AppWithRouter from '../AppWithRouter'
+import renderWithRouter from '../renderWithRouter'
+import AppWithRouter from '../appWithRouter'
 
 
 

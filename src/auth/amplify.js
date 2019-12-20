@@ -2,7 +2,7 @@
 //https://aws-amplify.github.io/amplify-js/api/interfaces/signupparams.html
 
 import {Auth}  from "aws-amplify";
-import {setUser} from './util/auth';
+import {setUser} from './util';
 
  export async function signUp({username, password}, updateFormType, updatesnackbarMsg ) {
 

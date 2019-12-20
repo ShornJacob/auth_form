@@ -1,7 +1,7 @@
 //https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
-export const setUser = user => {
-  //console.log(user)
-  window.localStorage.amplifyUser = JSON.stringify(user)
+export const setUser = userInfoObj => {
+  // console.log(email)
+  window.localStorage.amplifyUser = JSON.stringify(userInfoObj)
 } 
 //e read-only localStorage property allows you to access a Storage object for the Document's origin; 
 //the stored data is saved across browser sessions. localStorage is similar to sessionStorage, except that 
@@ -11,14 +11,20 @@ export const setUser = user => {
 export const isBrowser = () => typeof window !== "undefined"
 
 
-export const getUser = () =>
-  isBrowser() && window.localStorage.getItem("amplifyUser")
-    ? JSON.parse(window.localStorage.getItem("amplifyUser"))
-    : {}
+export const getUser = () => {
+   const user =  isBrowser() && window.localStorage.getItem("amplifyUser")
+   ? JSON.parse(window.localStorage.getItem("amplifyUser"))
+   : {}
+
+  //  console.log(user)
+   return user
+}
+ 
 
 
 export const isLoggedIn = () => {
     const user = getUser()
+    // console.log(!!user.username)
     return !!user.username
   }
 
@@ -29,3 +35,4 @@ export const isLoggedIn = () => {
   }
 
   //https://www.gatsbyjs.org/tutorial/authentication-tutorial/#authentication-service
+

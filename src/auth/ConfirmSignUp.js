@@ -4,14 +4,14 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import useForm from "react-hook-form";
 import useAuthStyles from "./style";
-import SimpleSnackbar from "../components/Snackbar";
+import SimpleSnackbar from "./components/snackbar";
 import { Auth } from "aws-amplify";
 import { navigate } from "@reach/router";
 import Avatar from "@material-ui/core/Avatar";
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import isEmpty from 'lodash/isEmpty';
+
 
 
 export default ({location : {state}}) => {
@@ -37,27 +37,24 @@ export default ({location : {state}}) => {
 
   const [snackbarMsg, updatesnackbarMsg] = useState(msgforBar);
 
-  const { register, handleSubmit, errors, watch } = useForm();
+  const { register, handleSubmit, errors} = useForm();
  
 
 
   //https://aws-amplify.github.io/amplify-js/api/classes/authclass.html#confirmsignup
   const onConfirmSignUp = values => {
-    // console.log(values)
+     console.log(values)
     ConfirmSignUp(values);
   };
 
-  async function ConfirmSignUp({ username, code }) {
+  async function ConfirmSignUp({ username, authcode }) {
     try {
-      await Auth.ConfirmSignUp({
-        username,
-        code
-      });
+
+   
+      await Auth.confirmSignUp(username,authcode);
 
       console.log("confirm signup success!");
-      //https://reach.tech/router/api/navigate
-      // // put some state on the location
-      //https://github.com/reach/router/issues/96
+
       navigate("/signin", {
         state: {
           msg:
@@ -65,7 +62,8 @@ export default ({location : {state}}) => {
         }
       });
     } catch (err) {
-      //the error boject
+
+      console.log(err)
       updatesnackbarMsg(err.message);
     }
   }
@@ -116,29 +114,15 @@ export default ({location : {state}}) => {
           fullWidth
           inputRef={register({
             minLength: {
-              value: 8
+              value: 6
             },
             required: true
           })}
-          error={!!errors.password}
-          helperText={errors.password && "Minimum Length of 8."}
+          error={!!errors.authcode}
+          helperText={errors.authcode && "Minimum Length of 8."}
         />
 
-        {/* <TextField
-          id="password2"
-          name="password2"
-          type="password"
-          variant="outlined"
-          margin="normal"
-          label="Confirm Password"
-          fullWidth
-          inputRef={register({
-            validate: value => value === watch("password"),
-            required: true
-          })}
-          error={!!errors.password}
-          helperText={errors.password2 && "Passwords don't match."}
-        /> */}
+   
 
         <Button
           className={classes.submit}
@@ -150,18 +134,21 @@ export default ({location : {state}}) => {
         </Button>
       </form>
 
-      {/* <Grid container>
+      <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-              Forgot password
+              {/* https://material-ui.com/components/links/ */}
+              {/* color="primary" as the link needs to stand out.
+              variant="inherit" as the link will, most of the time, be used as a child of a Typography component. */}
+              <Link href="/signup"  variant="body2"  color="secondary">
+                Sign Up
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                Forgot password
+            <Link href="/signin"  variant="body2"  color="secondary">
+                Sign In
               </Link>
             </Grid>
-          </Grid> */}
+          </Grid>
 
       {snackbarMsg ? <SimpleSnackbar message={snackbarMsg} /> : null}
     </div>

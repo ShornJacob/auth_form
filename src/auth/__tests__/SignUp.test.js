@@ -16,7 +16,7 @@ import {
   act
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import SignUp from "../SignUp";
+import SignUp from "../signUp";
 import { Auth } from "aws-amplify";
 import { navigate } from "@reach/router";
 import MutationObserver from "mutationobserver-shim";

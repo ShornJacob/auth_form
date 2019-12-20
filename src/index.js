@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Amplify from 'aws-amplify'
-import App from './auth/AppWithRouter';
+import App from 'auth/appWithRouter';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import config from './aws-exports'
 Amplify.configure(config)

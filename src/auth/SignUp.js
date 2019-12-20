@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import useForm from "react-hook-form";
 import useAuthStyles from "./style";
-import SimpleSnackbar from "../components/Snackbar";
+import SimpleSnackbar from "./components/snackbar";
 import { Auth } from "aws-amplify";
 import { navigate } from "@reach/router";
 import Avatar from "@material-ui/core/Avatar";
@@ -13,6 +13,8 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 
 export default () => {
+
+ 
   const classes = useAuthStyles();
 
   const [snackbarMsg, updatesnackbarMsg] = useState(null);
@@ -132,13 +134,16 @@ export default () => {
 
       <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              {/* https://material-ui.com/components/links/ */}
+              {/* color="primary" as the link needs to stand out.
+              variant="inherit" as the link will, most of the time, be used as a child of a Typography component. */}
+              <Link href="/confirmsignup"  variant="body2"  color="secondary">
                 Confirm email
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                Forgot password
+            <Link href="/signin"  variant="body2"  color="secondary">
+                Sign In
               </Link>
             </Grid>
           </Grid>
