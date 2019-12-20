@@ -36,6 +36,8 @@ export default function ButtonAppBar() {
           <Button color="inherit" onClick={() => navigate('/signin')}>SignIn</Button>
           <Button color="inherit" onClick={() => logout(()=>navigate('/signin'))}>SignOut</Button>
           <Button color="inherit" onClick={() => navigate('/profile')}>Profile</Button>
+          <Button color="inherit" onClick={() => navigate('/forgotpassword')}>ForgotPassword</Button>
+          <Button color="inherit" onClick={() => navigate('/forgotpasswordsubmit')}>ForgotPassword</Button>
         </Toolbar>
       </AppBar>
     </div>

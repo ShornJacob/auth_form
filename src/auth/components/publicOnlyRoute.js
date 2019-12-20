@@ -6,9 +6,9 @@ import { isLoggedIn, isBrowser } from "auth/util";
 
 const PublicOnlyRoute = ({ component: Component, ...rest }) => {
 
-  console.log(window.location.pathname)
-  console.log(isLoggedIn())
-  console.log(isBrowser())
+  // console.log(window.location.pathname)
+  // console.log(isLoggedIn())
+  // console.log(isBrowser())
   if (
     isLoggedIn() &&
     isBrowser() &&

@@ -8,7 +8,7 @@ import SimpleSnackbar from "./components/snackbar";
 import { Auth } from "aws-amplify";
 import { navigate } from "@reach/router";
 import Avatar from "@material-ui/core/Avatar";
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 
@@ -19,29 +19,26 @@ export default () => {
 
   const [snackbarMsg, updatesnackbarMsg] = useState(null);
 
-  const { register, handleSubmit, errors, watch } = useForm();
+  const { register, handleSubmit, errors} = useForm();
 
-  const onSignUp = values => {
+  const onForgotPassword = values => {
     // console.log(values)
-    signUp(values);
+    forgotPassword(values);
   };
 
-  async function signUp({ username, password }) {
+  async function forgotPassword({ username }) {
     try {
-      await Auth.signUp({
-        username,
-        password
-      });
+      await Auth.forgotPassword(username);
 
       //console.log("sign up success!");
       //https://reach.tech/router/api/navigate
       // // put some state on the location
       //https://github.com/reach/router/issues/96
-      navigate("/confirmsignup", {
+      navigate("/forgotpasswordsubmit", {
         state: {
           username,
           msg:
-            "A confirmation code has been send to the submitted email. Please confirm the email."
+            "A reset code has been send to the submitted email. Confirm a new password using the code."
         }
       });
     } catch (err) {
@@ -60,15 +57,15 @@ export default () => {
     <div className={classes.paper}>
 
       <Avatar className={classes.avatar}>
-        <PersonAddIcon />
+        <LockOpenIcon />
       </Avatar>
 
       {/* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles */}
       <Typography component="h1" variant="h5" role="heading">
-        Sign Up
+        Request Password Reset Code
       </Typography>
 
-      <form className={classes.form} onSubmit={handleSubmit(onSignUp)}>
+      <form className={classes.form} onSubmit={handleSubmit(onForgotPassword)}>
         {/* variant is border
                   margin is top bottom*/}
         <TextField
@@ -88,47 +85,14 @@ export default () => {
           helperText={errors.username && "Email not valid."}
         />
 
-        <TextField
-          id="password"
-          name="password"
-          type="password"
-          variant="outlined"
-          margin="normal"
-          label="Password"
-          fullWidth
-          inputRef={register({
-            minLength: {
-              value: 8
-            },
-            required: true
-          })}
-          error={!!errors.password}
-          helperText={errors.password && "Minimum Length of 8."}
-        />
-
-        <TextField
-          id="password2"
-          name="password2"
-          type="password"
-          variant="outlined"
-          margin="normal"
-          label="Confirm Password"
-          fullWidth
-          inputRef={register({
-            validate: value => value === watch("password"),
-            required: true
-          })}
-          error={!!errors.password}
-          helperText={errors.password2 && "Passwords don't match."}
-        />
-
+        
         <Button
           className={classes.submit}
           type="submit"
           fullWidth
           variant="outlined"
         >
-          Sign Up
+            Request
         </Button>
       </form>
 
@@ -137,8 +101,8 @@ export default () => {
               {/* https://material-ui.com/components/links/ */}
               {/* color="primary" as the link needs to stand out.
               variant="inherit" as the link will, most of the time, be used as a child of a Typography component. */}
-              <Link href="/confirmsignup"  variant="body2"  color="secondary">
-                Confirm email
+              <Link href="/forgotpasswordsubmit"  variant="body2"  color="secondary">
+                Reset Password with code
               </Link>
             </Grid>
             <Grid item>
