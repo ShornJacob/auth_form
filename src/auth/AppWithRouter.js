@@ -18,7 +18,6 @@ export default function AppWithRouter() {
         <PrivateRoute path="/profile" component={Profile} />
         <PublicRoute path="/signup" component={SignUp} />
         <PublicRoute path="/confirmsignup"component={ConfirmSignUp} />
-        <PrivateRoute path="/profile" component={Profile} />
         <PrivateRoute path="/" component={Profile} />
         <PublicRoute path="/forgotpassword" component={ForgotPassword} />
         <PublicRoute path="/forgotpasswordsubmit" component={ForgotPasswordSubmit} />

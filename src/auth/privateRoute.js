@@ -5,8 +5,6 @@ import { navigate } from "@reach/router";
 import { isLoggedIn } from "../services/auth"
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
 
- 
-
   if (!isLoggedIn() && location.pathname !== `/signin`) {
     navigate(`/signin`)
     return null

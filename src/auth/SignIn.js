@@ -18,8 +18,15 @@ import {setUser} from './util'
 export default ({ location: { state } }) => {
   let msgforBar;
 
-  if (state !== null) {
-    msgforBar = state.msg;
+  //https://www.ajaymatharu.com/javascript-difference-between-undefined-and-null/
+  //undefined is a type itself (undefined) while null is an object.
+  //https://stackoverflow.com/questions/3390396/how-to-check-for-undefined-in-javascript
+  if (typeof state !== 'undefined') {
+    //https://stackoverflow.com/questions/11040472/how-to-check-if-object-property-exists-with-a-variable-holding-the-property-name
+    if(state.hasOwnProperty('msg')){
+      msgforBar = state.msg;
+  }
+    //msgforBar = state.msg;
   }
 
   const classes = useAuthStyles();
