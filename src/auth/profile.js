@@ -1,5 +1,5 @@
 import React from 'react'
-import {getUser} from './util'
+import {getUser} from 'services/auth'
 
 export default function Profile() {
 

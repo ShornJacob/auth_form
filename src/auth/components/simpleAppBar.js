@@ -7,7 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { navigate } from "@reach/router";
-import {logout} from 'auth/util'
+import {logout} from 'services/auth'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,7 +37,7 @@ export default function ButtonAppBar() {
           <Button color="inherit" onClick={() => logout(()=>navigate('/signin'))}>SignOut</Button>
           <Button color="inherit" onClick={() => navigate('/profile')}>Profile</Button>
           <Button color="inherit" onClick={() => navigate('/forgotpassword')}>ForgotPassword</Button>
-          <Button color="inherit" onClick={() => navigate('/forgotpasswordsubmit')}>ForgotPassword</Button>
+          <Button color="inherit" onClick={() => navigate('/forgotpasswordsubmit')}>ForgotPasswordSubmit</Button>
         </Toolbar>
       </AppBar>
     </div>

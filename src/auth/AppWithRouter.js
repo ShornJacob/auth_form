@@ -7,22 +7,21 @@ import SignIn from './signIn'
 import Profile from 'auth/profile'
 import ForgotPassword from 'auth/forgotPassword'
 import ForgotPasswordSubmit from 'auth/forgotPasswordSubmit'
-import PrivateRoute from 'auth/components/privateRoute'
-import PublicOnlyRoute from 'auth/components/publicOnlyRoute'
+import PrivateRoute from 'auth/privateRoute'
+import PublicRoute from 'auth/publicRoute'
 
 export default function AppWithRouter() {
   return (
     <Layout>
-      <Router>
-  
-        <PublicOnlyRoute path="/signup" component={SignUp} />
-        <PublicOnlyRoute path="/confirmsignup"component={ConfirmSignUp} />
-        <PublicOnlyRoute path="/signin"component={SignIn } />
-        <PublicOnlyRoute path="/signin"component={SignIn } />
+      <Router> 
+        <PublicRoute path="/signin" component={SignIn } />
+        <PrivateRoute path="/profile" component={Profile} />
+        <PublicRoute path="/signup" component={SignUp} />
+        <PublicRoute path="/confirmsignup"component={ConfirmSignUp} />
         <PrivateRoute path="/profile" component={Profile} />
         <PrivateRoute path="/" component={Profile} />
-        <PublicOnlyRoute path="/forgotpassword"component={ForgotPassword} />
-        <PublicOnlyRoute path="/forgotpasswordsubmit"component={ForgotPasswordSubmit} />
+        <PublicRoute path="/forgotpassword" component={ForgotPassword} />
+        <PublicRoute path="/forgotpasswordsubmit" component={ForgotPasswordSubmit} />
       </Router>
     </Layout>
   );

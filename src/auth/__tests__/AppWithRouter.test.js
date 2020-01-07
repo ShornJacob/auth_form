@@ -1,15 +1,4 @@
-import React from 'react'
-import { render } from '@testing-library/react'
-import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-} from '@reach/router'
-import '@testing-library/jest-dom/extend-expect'
-import MutationObserver from 'mutationobserver-shim'
-//render with Router id just for testing
-import renderWithRouter from '../renderWithRouter'
-import AppWithRouter from '../appWithRouter'
+//  
 
 //need to mock PublicOnlyRoute
 //https://thoughtbot.com/blog/mocking-react-components-with-jest
@@ -17,11 +6,6 @@ import AppWithRouter from '../appWithRouter'
 //jest.mock(...) function to automatically mock the axios module.
 // full-on replace the implementation of a mock function. This can be done with jest.fn
 //https://jestjs.io/docs/en/mock-functions#mock-implementations
-
-
-// 
-
-
 
 
 //https://stackoverflow.com/questions/9901082/what-is-this-javascript-require
