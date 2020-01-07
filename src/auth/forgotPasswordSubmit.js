@@ -104,7 +104,7 @@ export default ({ location: { state } }) => {
           // type="password"
           variant="outlined"
           margin="normal"
-          label="Auth Code"
+          label="Reset Code"
           fullWidth
           inputRef={register({
             minLength: {
