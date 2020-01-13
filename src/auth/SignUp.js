@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import useForm from "react-hook-form";
 import useAuthStyles from "./style";
-import SimpleSnackbar from "./components/snackbar";
+import SimpleSnackbar from "./components/Snackbar";
 import { Auth } from "aws-amplify";
 import { navigate } from "@reach/router";
 import Avatar from "@material-ui/core/Avatar";

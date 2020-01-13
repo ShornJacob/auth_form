@@ -2,7 +2,7 @@
 import React from "react"
 //https://material-ui.com/components/container/
 import Container from '@material-ui/core/Container';
-import SimpleAppBar from '../auth/components/simpleAppBar'
+import SimpleAppBar from 'auth/containers/SimpleAppBar'
 //https://material-ui.com/styles/advanced/
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme'

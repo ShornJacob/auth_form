@@ -5,17 +5,19 @@ import Button from "@material-ui/core/Button";
 // import Link from '@material-ui/core/Link';
 import useForm from "react-hook-form";
 import React, { useState } from "react";
-import useAuthStyles from "./style";
-import SimpleSnackbar from "./components/snackbar";
+import useAuthStyles from "../style";
+import SimpleSnackbar from "./Snackbar";
 import Avatar from "@material-ui/core/Avatar";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import { Auth } from "aws-amplify";
 import { navigate } from "@reach/router";
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import {setUser} from './util'
+import {setUser} from '../util'
 
-export default ({ location: { state } }) => {
+export default ({ location: { state }, loginSuccess }) => {
+
+  // console.log(loginSuccess)
   let msgforBar;
 
   //https://www.ajaymatharu.com/javascript-difference-between-undefined-and-null/
@@ -47,6 +49,7 @@ export default ({ location: { state } }) => {
       console.log("Successfully Signed In")
       //an object needs to be set in localstorage
       setUser({username})
+      loginSuccess(username)
       navigate("/profile")
     } catch (err) {
 

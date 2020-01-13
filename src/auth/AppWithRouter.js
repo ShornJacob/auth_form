@@ -3,7 +3,7 @@ import { Router } from "@reach/router";
 import SignUp from "./signUp";
 import ConfirmSignUp from "./confirmSignUp";
 import Layout from "../layout";
-import SignIn from './signIn'
+import SignIn from 'auth/containers/SignIn'
 import Profile from 'auth/profile'
 import ForgotPassword from 'auth/forgotPassword'
 import ForgotPasswordSubmit from 'auth/forgotPasswordSubmit'
