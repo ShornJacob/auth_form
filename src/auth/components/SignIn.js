@@ -46,7 +46,7 @@ export default ({ location: { state }, loginSuccess }) => {
   async function signIn({ username, password }) {
     try {
       await Auth.signIn(username,password);
-      console.log("Successfully Signed In")
+      console.log("Signed In")
       //an object needs to be set in localstorage
       setUser({username})
       loginSuccess(username)
