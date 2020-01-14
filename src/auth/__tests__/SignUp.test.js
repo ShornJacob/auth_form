@@ -13,11 +13,10 @@ import {
   wait,
   cleanup,
   waitForElement,
-  act
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import SignUp from "../signUp";
-import { Auth } from "aws-amplify";
+import mockAmplify from "aws-amplify";
 import { navigate } from "@reach/router";
 import MutationObserver from "mutationobserver-shim";
 
@@ -93,6 +92,7 @@ test("confirm password non match", async () => {
   });
 });
 
+// jest.mock('aws-amplify')
 //https://jestjs.io/docs/en/manual-mocks
 test("server error message", async () => {
   //Arrange
@@ -101,14 +101,10 @@ test("server error message", async () => {
     <SignUp />
   );
 
-  jest.spyOn(console, "log").mockImplementation(() => {});
-
-  Auth.signUp = jest.fn().mockImplementation(() => {
-    //The throw statement throws a user-defined exception
-    //The Error constructor creates an error object, so it already throws an object
-    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
-    throw new Error("Error Message");
-  });
+  //jest.spyOn(console, "log").mockImplementation(() => {});
+   mockAmplify.Auth.signUp = jest.fn().mockRejectedValueOnce("Error Message")
+  // mockAuth.signUp = jest.fn().mockImplementation(() => Promise.reject("Error Message"))
+ 
 
   //https://jestjs.io/docs/en/mock-function-api.html#mockfnmockimplementationfn
   //https://jestjs.io/docs/en/jest-object#jestfnimplementation
@@ -145,10 +141,12 @@ test("server error message", async () => {
   // });
 
   expect(navigate).toHaveBeenCalledTimes(0)
+
+  // expect(mockAmplify.Auth.signIn).toHaveBeenCalledTimes(1)
   
-  const snackBarElement = await waitForElement(() =>
-    getByText(/error message/i)
-  );
+  // const snackBarElement = await waitForElement(() =>
+  //   getByText(/error message/i)
+  // );
   // { container }
 });
 
@@ -184,7 +182,7 @@ test("server error message", async () => {
 //  })
 
     
-
+//https://github.com/aws-amplify/amplify-js/issues/4499
    
    
     

@@ -45,8 +45,8 @@ export default ({ location: { state }, loginSuccess }) => {
   //https://aws-amplify.github.io/amplify-js/api/classes/authclass.html#signin
   async function signIn({ username, password }) {
     try {
-      await Auth.signIn(username,password);
-      console.log("Signed In")
+      const cognitoUser = await Auth.signIn(username,password);
+      console.log(cognitoUser)
       //an object needs to be set in localstorage
       setUser({username})
       loginSuccess(username)
