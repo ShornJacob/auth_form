@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render,cleanup } from '@testing-library/react'
 import {
   createHistory,
   createMemorySource,
@@ -9,6 +9,20 @@ import '@testing-library/jest-dom/extend-expect'
 import MutationObserver from 'mutationobserver-shim'
 import renderWithRouter from '../renderWithRouter'
 import AppWithRouter from '../appWithRouter'
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store'
+
+
+//afterEach is from jest
+afterEach(cleanup)
+
+const middlewares = []
+const mockStore = configureStore(middlewares)
+
+//https://redux.js.org/recipes/writing-tests/
+//can wrap it in a <Provider> with a store created specifically for this unit test.
+//https://redux.js.org/recipes/writing-tests/#connected-components
+//https://github.com/dmitry-zaets/redux-mock-store
 
 
 
@@ -30,13 +44,24 @@ import AppWithRouter from '../appWithRouter'
 //https://jestjs.io/docs/en/mock-functions
 //The mockImplementation method is useful when you need to define the default implementation of a mock function that is created from another module:
 
-jest.mock('services/auth');
+// jest.mock('services/auth');
+
+const initialState = {
+  auth : {
+    AUTHENTICATED: false,
+    AUTHENTICATING: false,
+    email: null
+  }  
+}
+
+const store = mockStore(initialState)
 
 test('testing redering signin page', async () => {
+
   const {
     getAllByRole,
     history: { navigate },
-  } = renderWithRouter(<AppWithRouter />)
+  } = renderWithRouter(<Provider store={store}><AppWithRouter /></Provider>)
 
   await navigate('/signin')
 
@@ -53,7 +78,7 @@ test('testing rendering signup', async () => {
     const {
       getAllByRole,
       history: { navigate },
-    } = renderWithRouter(<AppWithRouter />)
+    } = renderWithRouter(<Provider store={store}><AppWithRouter /></Provider>)
   
     await navigate('/signup')
   
@@ -68,3 +93,4 @@ test('testing rendering signup', async () => {
 
 
 //isLoggedin probbaly returns false beause jsdom is not a browser
+// ("",()=>{})

@@ -25,6 +25,7 @@ jest.mock('@reach/router', () => ({
   navigate: jest.fn(),
 }))
 
+
 //https://medium.com/@rickhanlonii/understanding-jest-mocks-f0046c68e53c
 //set all exports of a module to the Mock Function
 //mock the module
@@ -34,7 +35,7 @@ jest.mock('@reach/router', () => ({
 //   jest.spyOn(console, 'log').mockImplementation(() => {});
 // });
 
-afterAll(cleanup);
+afterEach(cleanup);
 
 
 
