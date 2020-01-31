@@ -1,6 +1,6 @@
 //https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 export const setUser = userInfoObj => {
-  // console.log(email)
+  //console.log(userInfoObj)
   window.localStorage.amplifyUser = JSON.stringify(userInfoObj)
 } 
 //e read-only localStorage property allows you to access a Storage object for the Document's origin; 

@@ -113,13 +113,17 @@ export default function SimpleAppBar({
                   vertical: 'bottom',
                   horizontal: 'right',
                 }}
-                // keepMounted
-                // transformOrigin={{
-                //   vertical: 'top',
-                //   horizontal: 'right',
-                // }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                //https://github.com/mui-org/material-ui/issues/10804
+                //Removes a warning in console
+                // It's the opposite of the anchorEl prop
+                getContentAnchorEl={null}
               >
                 {menuItems}
               </Menu>

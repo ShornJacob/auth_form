@@ -46,9 +46,20 @@ export default ({ location: { state }, loginSuccess }) => {
   async function signIn({ username, password }) {
     try {
       const cognitoUser = await Auth.signIn(username,password);
-      console.log(cognitoUser)
+
+     //https://medium.com/@pyrolistical/destructuring-nested-objects-9dabdd01a3b8
+      const {signInUserSession: {idToken: {payload : {email}}  }} = cognitoUser
+      const {signInUserSession: {idToken: {payload }  }} = cognitoUser
+     
+      //https://stackoverflow.com/questions/4925760/selecting-a-json-object-with-a-colon-in-the-key
+      //js allows colon in keys. :-(
+      const groups = payload['cognito:groups']
+     
+      // console.log(email )
+      // console.log(username)
+
       //an object needs to be set in localstorage
-      setUser({username})
+      setUser({username : email , group : groups})
       loginSuccess(username)
       navigate("/profile")
     } catch (err) {
